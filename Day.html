@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food-Items</title>
+    <link rel="stylesheet" href="./style1/index1.css">
+</head>
+<style>
+   #data{
+       height: 400px;
+       margin: 40px 300px;
+   }
+   #recipeimg{
+       height: 400px;
+       width: 400px;
+   }
+</style>
+<body>
+    <div id="main">
+       <div id="nav"></div>
+       <div id="data"></div>
+    </div>
+</body>
+</html>
+
+<script type="module">
+    let id;
+    let nav=document.querySelector("#nav");
+    var container=document.querySelector("#data");
+    import {navbar} from "./component1/navbar1.js"
+    import {getData} from "./script1/showdata1.js"
+    nav.innerHTML=navbar();
+        
+    let response=getData(`https:/www.themealdb.com/api/json/v1/1/random.php`)
+     response.then((result) =>{
+     console.log(result);
+     appendData(result)
+      });
+       response.catch((err) =>{
+        console.log("err");
+     });
+
+     function appendData(data){
+    data.meals.forEach((element) =>{
+        let div=document.createElement("div");
+        let img=document.createElement("img");
+        img.src=element.strMealThumb;
+        img.id="recipeimg";
+        
+        let h1=document.createElement("h1");
+        h1.innerText=element.strMeal;
+        let p=document.createElement("p");
+        p.innerText=element.strInstructions;
+        div.append(img,h1,p);
+
+        container.append(div);
+    })
+}
+
+
+     document.querySelector("#menu").addEventListener("click",function(){
+         window.location.href="Food.html";
+     })
+     document.querySelector("#recipe").addEventListener("click",function(){
+         window.location.href="day.html";
+     })
+      document.querySelector("#latest").addEventListener("click",function(){
+         window.location.href="latest.html";
+     })
+
+</script>
